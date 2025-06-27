@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 public class MyConfig {
@@ -48,7 +46,17 @@ public class MyConfig {
                                 .requestMatchers("/user/**").hasRole("USER")
                                 .requestMatchers("/**").permitAll()
                 )
-                .formLogin(withDefaults())
+                .formLogin(form -> form
+                    .loginPage("/signin")
+                    .loginProcessingUrl("/do_login") //  form action URL. (submitting input data to)
+                    .defaultSuccessUrl("/user/index") // Redirect after success
+                    .failureUrl("/signin?error=true")     // Redirect on failure
+                    .permitAll()
+                )
+                .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/signin?logout=true")
+                )
                 .csrf(csrf -> csrf.disable());
 
         return http.build();

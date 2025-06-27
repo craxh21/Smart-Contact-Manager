@@ -97,4 +97,16 @@ public class HomeController {
 		}
     	
     }
+
+	@GetMapping("/signin")
+	public String customLogin(Model model){
+		model.addAttribute("title: ", "Login Page");
+		return "login";
+	}
+
+	@PostMapping("/signin")
+	public String handleLogin(Model model){
+		model.addAttribute("title: ", "Login Page");
+		return "login";
+	}
 }
