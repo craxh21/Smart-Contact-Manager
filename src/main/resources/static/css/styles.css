@@ -34,3 +34,66 @@ body{
 #login .container #login-row #login-column #login-box #login-form #register-link {
   margin-top: -85px;
 }
+
+
+/* sidebar styling */
+@media only screen and (max-width: 600px){
+	.sidebar {
+		display: none;
+		width: 80% !important;
+		background: white;
+		height: 100vh;
+		position: fixed;
+		padding-top: 20px;
+		z-index: 999;
+		box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+	}
+
+	.content{
+		margin-left: 0% !important;
+	}
+}
+
+.sidebar{
+	width:18%;
+	background: white;
+	height: 100%;
+	position: fixed;
+	padding-top: 45px;	
+}
+
+.sidebar a{
+	display: block;
+	width: 100%;
+	padding: 10px 25px;
+	text-decoration: solid;
+	color: grey;
+}
+.sidebar a:hover {
+    background-color: #e6e6e6;
+    color: #000;
+    border-left: 3px solid #007bff;
+}
+
+.content{
+	margin-left: 20%;
+}
+
+.sidebar .crossBtn{
+	position: absolute;
+	top: 0;
+	right: 35px;
+	font-size: 36px;
+	cursor: pointer;
+}
+
+.sidebar.collapsed {
+	width: 0;
+	overflow: hidden;
+	transition: width 0.3s ease;
+}
+
+.content.expanded {
+	margin-left: 0 !important;
+	transition: margin-left 0.3s ease;
+}
