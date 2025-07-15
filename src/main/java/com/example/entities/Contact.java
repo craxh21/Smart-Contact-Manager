@@ -17,6 +17,14 @@ public class Contact {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int c_id;
 	private String name;
+	
+	@Override
+	public String toString() {
+		return "Contact [c_id=" + c_id + ", name=" + name + ", secondName=" + secondName + ", work=" + work + ", email="
+				+ email + ", phone=" + phone + ", image=" + image + ", description=" + description + ", user=" + user
+				+ "]";
+	}
+	
 	private String secondName;
 	private String work;
 	private String email;
@@ -77,4 +85,10 @@ public class Contact {
 		this.description = description;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

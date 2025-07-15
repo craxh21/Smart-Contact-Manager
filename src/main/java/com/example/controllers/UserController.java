@@ -7,11 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dao.UserRepository;
 import com.example.entities.Contact;
 import com.example.entities.User;
+import com.example.service.ContactService;
 
 @Controller
 @RequestMapping("/user")
@@ -46,5 +48,16 @@ public class UserController {
 		return "normal/add_contact";
 	}
 
+	// processing add contact
+	@Autowired
+	private ContactService contactService;
+
+	@PostMapping("/process_contact")
+	public String processAddContact(@ModelAttribute Contact contact, Principal principle){
+		String name  = principle.getName();
+		contactService.addContact(name, contact);  // Move the logic here
+		System.out.println("data: " + contact);
+		return "normal/add_contact";
+	}
 	
 }

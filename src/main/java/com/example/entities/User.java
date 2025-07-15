@@ -48,14 +48,14 @@ public class User {
 	
 	//to store contacts of a user
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")//mapped by is used to tell that foreign key management will be done by this user table only, so need to create another table user_contact
-	private List<Contact> contact = new ArrayList<>();
+	private List<Contact> contacts = new ArrayList<>();
 	
-	public List<Contact> getContact() {
-		return contact;
+	public List<Contact> getContacts() {
+		return contacts;
 	}
 
 	public void setContact(List<Contact> contact) {
-		this.contact = contact;
+		this.contacts = contact;
 	}
 
 	public User() {
