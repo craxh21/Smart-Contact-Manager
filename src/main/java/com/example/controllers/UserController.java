@@ -1,6 +1,7 @@
 package com.example.controllers;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.dao.ContactRepository;
 import com.example.dao.UserRepository;
 import com.example.entities.Contact;
 import com.example.entities.User;
@@ -27,6 +29,9 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ContactRepository contactRepository;
 
 	@ModelAttribute
 	public void addCommonDaat(Model model , Principal principal){
@@ -76,6 +81,24 @@ public class UserController {
 		}
 
 		return "redirect:/user/add_contact";  // ⬅ Redirect to trigger flash
+	}
+
+
+	//show contacts
+	@GetMapping("/show_contacts")
+	public String showContacts(Model model, Principal principal){
+		model.addAttribute("title", "ViewContacts");
+
+		String userName = principal.getName();
+		User user =  this.userRepository.getUserByUserName(userName);
+
+		// Integer userid = this.userRepository.getUserByUserName(principal.getName()).getId();
+
+		List<Contact> contacts = this.contactRepository.findContactsByUserId(user.getId());
+
+		model.addAttribute("contacts", contacts);
+		
+		return "normal/show_contacts";
 	}
 
 	

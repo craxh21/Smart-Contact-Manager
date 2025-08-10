@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>user dashboard</title>
+</head>
+<body>
+	<section>
+		
+		<p>this is show Contacts.</p>
+		
+        <div class="container mt-4">
+            <h2 class="mb-3">Your Contacts</h2>
+
+            <div th:if="${#lists.isEmpty(contacts)}">
+                <p>No contacts found.</p>
+            </div>
+
+            <div th:if="${not #lists.isEmpty(contacts)}">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>contact id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Work</th>
+                            <!-- <th>Image</th> -->
+
+                            <th>Action</th>  <!--the action we want to perform: delete, update, -->
+                        </tr>
+                    </thead>
+
+                    
+                    <tbody>
+                        <tr th:each="c : ${contacts}">
+                            <td scope="row" th:text="${'SCM21'+ c.c_id}"></td>
+                            <td th:text="${c.name}"></td>
+                            <td th:text="${c.email}"></td>
+                            <td th:text="${c.phone}"></td>
+                            <td th:text="${c.work}"></td>
+                            <td>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                                <button class="btn btn-primary btn-sm">Update</button>
+
+                            </td>
+                            <!-- <td>
+                                <img th:src="@{'/images/' + ${c.image}}" width="80" height="80" class="img-thumbnail"/>
+                            </td> -->
+
+
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                
+            </div>
+        </div>
+	</section>
+</body>
+</html>
