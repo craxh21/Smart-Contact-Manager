@@ -1,13 +1,16 @@
 package com.example.controllers;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +23,6 @@ import com.example.entities.Contact;
 import com.example.entities.User;
 import com.example.helper.Message;
 import com.example.service.ContactService;
-
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -85,8 +86,8 @@ public class UserController {
 
 
 	//show contacts
-	@GetMapping("/show_contacts")
-	public String showContacts(Model model, Principal principal){
+	@GetMapping("/show_contacts/{page}")
+	public String showContacts(@PathVariable("page") Integer page,  Model model, Principal principal){
 		model.addAttribute("title", "ViewContacts");
 
 		String userName = principal.getName();
@@ -94,9 +95,13 @@ public class UserController {
 
 		// Integer userid = this.userRepository.getUserByUserName(principal.getName()).getId();
 
-		List<Contact> contacts = this.contactRepository.findContactsByUserId(user.getId());
+		Pageable pageable = PageRequest.of(page, 5);  // pageable is parent class of pagerequest
 
-		model.addAttribute("contacts", contacts);
+		Page<Contact> contacts = this.contactRepository.findContactsByUserId(user.getId(), pageable);
+
+		model.addAttribute("contacts", contacts);  //passing the contacts
+		model.addAttribute("currentPage", page);  //passing the curr page
+		model.addAttribute("totalPages", contacts.getTotalPages());  //passing the total no. of pages
 		
 		return "normal/show_contacts";
 	}
